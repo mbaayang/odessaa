@@ -13,6 +13,8 @@ class ResPartner(models.Model):
     sale_warn = fields.Selection(WARNING_MESSAGE, 'Sales Warnings', default='no-message', help=WARNING_HELP)
     sale_warn_msg = fields.Text('Message for Sales Order')
 
+
+
     @api.model
     def _get_sale_order_domain_count(self):
         return []

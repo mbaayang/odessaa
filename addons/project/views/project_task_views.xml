@@ -64,7 +64,7 @@
                     <filter string="Project" name="project" context="{'group_by': 'project_id'}"/>
                 </filter>
             </field>
-        </record>
+        </record> 
 
         <!-- Base search view for project only -->
         <record id="view_task_search_form_project_base" model="ir.ui.view">
