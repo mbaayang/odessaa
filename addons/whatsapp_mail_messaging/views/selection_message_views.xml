@@ -28,7 +28,7 @@
                             <group>
                                 <field colspan="2" name="message" widget="text_emojis"
                                        nolabel="1"
-                                       placeholder="Write Message here...."
+                                       placeholder="Écrivez un message ici...."
                                 />
                             </group>
                         </page>

@@ -23,6 +23,20 @@
             <div class="fw-bolder" t-if="props.data.trackingNumber and !props.data.bigTrackingNumber">
                 <span class="fs-2" t-esc="props.data.trackingNumber" />
             </div>
+            <!-- Order Number -->
+            <!-- <div>
+                Order Number: <span t-esc="props.data.order_number" />
+            </div> -->
+            <t t-if="props.data.order">
+                <div class="pos-receipt-order-name">
+                    Order Number: <span t-esc="props.data.name"/>
+                </div>
+            </t>
+
+            <!-- Delivery Date -->
+            <!-- <div>
+                Delivery Date: <span t-esc="props.data.delivery_date" />
+            </div> -->
         </div>
         <br /><br />
     </t>

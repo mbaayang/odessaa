@@ -64,6 +64,7 @@ class SaleOrder(models.Model):
         required=True, change_default=True, index=True,
         tracking=1,
         domain="[('company_id', 'in', (False, company_id))]")
+    phone = fields.Char(string='Phone')
     state = fields.Selection(
         selection=SALE_ORDER_STATE,
         string="Status",

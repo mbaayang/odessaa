@@ -35,6 +35,7 @@ HR_WRITABLE_FIELDS = [
     'private_email',
     'address_id',
     'barcode',
+    'qr_code',
     'birthday',
     'category_ids',
     'children',
@@ -130,6 +131,7 @@ class User(models.Model):
     visa_expire = fields.Date(related='employee_id.visa_expire', readonly=False, related_sudo=False)
     additional_note = fields.Text(related='employee_id.additional_note', readonly=False, related_sudo=False)
     barcode = fields.Char(related='employee_id.barcode', readonly=False, related_sudo=False)
+    qr_code = fields.Binary(related='employee_id.qr_code', readonly=False, related_sudo=False)
     pin = fields.Char(related='employee_id.pin', readonly=False, related_sudo=False)
     certificate = fields.Selection(related='employee_id.certificate', readonly=False, related_sudo=False)
     study_field = fields.Char(related='employee_id.study_field', readonly=False, related_sudo=False)

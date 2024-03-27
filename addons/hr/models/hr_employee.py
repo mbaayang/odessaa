@@ -15,6 +15,8 @@ from odoo.exceptions import ValidationError, AccessError
 from odoo.osv import expression
 from odoo.tools import format_date
 
+import qrcode
+from io import BytesIO
 
 class HrEmployeePrivate(models.Model):
     """
@@ -128,6 +130,7 @@ class HrEmployeePrivate(models.Model):
     notes = fields.Text('Notes', groups="hr.group_hr_user")
     color = fields.Integer('Color Index', default=0)
     barcode = fields.Char(string="Badge ID", help="ID used for employee identification.", groups="hr.group_hr_user", copy=False)
+    qr_code = fields.Binary(string="QR Code", attachment=True, compute='_compute_qr_code')
     pin = fields.Char(string="PIN", groups="hr.group_hr_user", copy=False,
         help="PIN used to Check In/Out in the Kiosk Mode of the Attendance application (if enabled in Configuration) and to change the cashier in the Point of Sale application.")
     departure_reason_id = fields.Many2one("hr.departure.reason", string="Departure Reason", groups="hr.group_hr_user",
@@ -498,6 +501,27 @@ class HrEmployeePrivate(models.Model):
     def generate_random_barcode(self):
         for employee in self:
             employee.barcode = '041'+"".join(choice(digits) for i in range(9))
+
+    @api.depends('barcode')
+    def _compute_qr_code(self):
+        for employee in self:
+            employee.generate_qr_code()
+
+    def generate_qr_code(self):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(self.barcode)
+        qr.make(fit=True)
+
+        img = qr.make_image()
+        temp = BytesIO()
+        img.save(temp, format="PNG")
+        qr_image = temp.getvalue()
+        self.qr_code = base64.b64encode(qr_image)
 
     def _get_tz(self):
         # Finds the first valid timezone in his tz, his work hours tz,
