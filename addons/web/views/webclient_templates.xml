@@ -127,7 +127,7 @@
                             <t t-if="not disable_database_manager">
                                 <a class="border-end pe-2 me-1" href="/web/database/manager">Manage Databases</a>
                             </t>
-                            <a href="https://www.odoo.com?utm_source=db&amp;utm_medium=auth" target="_blank">Powered by <span>Odoo</span></a>
+                            <a href="https://www.akassaa.com" target="_blank">Powered by <span>Odessa</span></a>
                         </div>
                     </div>
                 </div>
@@ -149,8 +149,8 @@
                 </div>
 
                 <div class="mb-3 field-login">
-                    <label for="login" class="form-label">Email</label>
-                    <input type="text" placeholder="Email" name="login" t-att-value="login" id="login" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="username" autofocus="autofocus" autocapitalize="off"/>
+                    <label for="login" class="form-label">Identifiant</label>
+                    <input type="text" placeholder="Identifiant" name="login" t-att-value="login" id="login" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="username" autofocus="autofocus" autocapitalize="off"/>
                 </div>
 
                 <div class="mb-3">

@@ -320,8 +320,8 @@
             </tr>
             
             <!--Total amount with all taxes-->
-            <tr class="border-black o_total">
-                <td><strong>Total</strong></td>
+            <tr class="border-black o_total text-dark">
+                <td><strong>TOTAL</strong></td>
                 <td  class="text-end">
                     <span t-out="tax_totals['formatted_amount_total']">31.05</span>
                 </td>

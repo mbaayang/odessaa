@@ -42,9 +42,9 @@
             <xpath expr="//field[@name='order_line']/tree" position="attributes">
                 <attribute name="decoration-warning">recompute_delivery_price and is_delivery</attribute>
             </xpath>
-            <label for="commitment_date" position="before">
+            <!-- <label for="commitment_date" position="before">
                 <field name="shipping_weight" readonly="True"/>
-            </label>
+            </label> -->
         </field>
     </record>
 

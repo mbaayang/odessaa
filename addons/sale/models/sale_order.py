@@ -48,6 +48,14 @@ class SaleOrder(models.Model):
 
     #=== FIELDS ===#
 
+    state_custom = fields.Char(string='Etat', compute='_compute_state_custom', store=True)
+    def _compute_state_custom(self):
+        for order in self:
+            if order.invoice_status == 'to invoice':
+                order.state_custom = 'Non payé'
+            else:
+                order.state_custom = 'Payé'
+
     name = fields.Char(
         string="Order Reference",
         required=True, copy=False, readonly=False,

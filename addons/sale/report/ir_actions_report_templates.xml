@@ -5,12 +5,12 @@
         <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
         <t t-set="forced_vat" t-value="doc.fiscal_position_id.foreign_vat"/> <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
         <t t-set="address">
-            <div t-field="doc.partner_id"
+           <!--  <div t-field="doc.partner_id"
                 t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
             <p t-if="doc.partner_id.vat">
                 <t t-if="doc.company_id.account_fiscal_country_id.vat_label" t-out="doc.company_id.account_fiscal_country_id.vat_label"/>
                 <t t-else="">Tax ID</t>: <span t-field="doc.partner_id.vat"/>
-            </p>
+            </p> -->
         </t>
         <t t-if="doc.partner_shipping_id == doc.partner_invoice_id
                              and doc.partner_invoice_id != doc.partner_id
@@ -33,35 +33,46 @@
                 </t>
             </t>
         </t>
-        <div class="page">
+        <div class="page text-dark">
             <div class="oe_structure"/>
 
-            <h2 class="mt-4">
+            <h3 class="text-center mt-4">
                 <span t-if="env.context.get('proforma', False) or is_pro_forma">Pro-Forma Invoice # </span>
                 <span t-elif="doc.state in ['draft','sent']">Quotation # </span>
-                <span t-else="">Order # </span>
-                <span t-field="doc.name">SO0000</span>
-            </h2>
+                <span t-else="">Ticket # </span>
+                <span class="fw-bold" t-field="doc.name">SO0000</span>
+            </h3>
 
-            <div class="row mt-4 mb-2" id="informations">
-                <div t-if="doc.client_order_ref" class="col-auto col-3 mw-100 mb-2" name="informations_reference">
-                    <strong>Your Reference:</strong><br/>
-                    <span class="m-0" t-field="doc.client_order_ref">SO0000</span>
+            <div class="container mt-2 mb-2" id="informations">
+                <div t-if="doc.client_order_ref" class="row" name="informations_reference">
+                    <div class="col-6 fw-bold">Your Reference:</div>
+                    <div class="col-6 text-end" t-field="doc.client_order_ref">SO0000</div>
                 </div>
-                <div t-if="doc.date_order" class="col-auto col-3 mw-100 mb-2" name="informations_date">
-                    <strong t-if="doc.state in ['draft', 'sent']">Quotation Date:</strong>
-                    <strong t-else="">Order Date:</strong><br/>
-                    <span class="m-0" t-field="doc.date_order" t-options='{"widget": "date"}'>2023-12-31</span>
+                <div t-if="doc.date_order" class="row" name="informations_date">
+                    <div class="col-6 fw-bold" t-if="doc.state in ['draft', 'sent']">Quotation Date:</div>
+                    <div class="col-6 fw-bold"  t-else="">Réception:</div>
+                    <span class="col-6 text-end" t-field="doc.date_order">2023-12-31</span> <!-- t-options="{&quot;widget&quot;: &quot;date&quot;}" -->
                 </div>
-                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']"
-                    class="col-auto col-3 mw-100 mb-2"
-                    name="expiration_date">
-                    <strong>Expiration:</strong><br/>
-                    <span class="m-0" t-field="doc.validity_date">2023-12-31</span>
+                <div t-if="doc.commitment_date" class="row mb-2" name="commitment_date">
+                    <div class="col-6 fw-bold">Rendez-vous:</div>
+                    <div class="col-6 text-end" t-field="doc.commitment_date">2023-12-31</div>
                 </div>
-                <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
-                    <strong>Salesperson:</strong><br/>
-                    <span class="m-0" t-field="doc.user_id">Mitchell Admin</span>
+                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="row" name="expiration_date">
+                    <div class="col-6 fw-bold">Expiration:</div>
+                    <div class="col-6 text-end" t-field="doc.validity_date">2023-12-31</div>
+                </div>
+                <div t-if="doc.user_id.name" class="row mb-2">
+                    <div class="col-6 fw-bold"> Servi par:</div>
+                    <div class="col-6 text-end" t-field="doc.user_id">Mitchell Admin</div>
+                </div>
+                <div class="row">
+                    <div class="col-4 fw-bold">
+                        Client: 
+                    </div>
+                    <div class="col-8 text-end">
+                        <span t-field="doc.partner_id.name"/>
+                        <span t-field="doc.partner_id.phone"/>
+                    </div>
                 </div>
             </div>
 
@@ -70,23 +81,23 @@
             <t t-set="display_discount" t-value="any(l.discount for l in lines_to_report)"/>
 
             <div class="oe_structure"></div>
-            <table class="table table-sm o_main_table table-borderless mt-4">
+            <table class="table table-sm o_main_table table-borderless mt-4 text-dark">
                 <!-- In case we want to repeat the header, remove "display: table-row-group" -->
                 <thead style="display: table-row-group">
                     <tr>
-                        <th name="th_description" class="text-start">Description</th>
-                        <th name="th_quantity" class="text-end">Quantity</th>
-                        <th name="th_priceunit" class="text-end">Unit Price</th>
-                        <th name="th_discount" t-if="display_discount" class="text-end">
+                        <th name="th_description" class="text-start text-dark">Description</th>
+                        <th name="th_quantity" class="text-end text-dark">Qte</th>
+                        <th name="th_priceunit" class="text-end text-dark">PU</th>
+                        <!--<th name="th_discount" t-if="display_discount" class="text-end">
                             <span>Disc.%</span>
                         </th>
-                        <th name="th_taxes" class="text-end">Taxes</th>
-                        <th name="th_subtotal" class="text-end">
+                        <th name="th_taxes" class="text-end">Taxes</th>-->
+                        <th name="th_subtotal" class="text-end text-dark">
                             <span>Amount</span>
                         </th>
                     </tr>
                 </thead>
-                <tbody class="sale_tbody">
+                <tbody class="sale_tbody text-dark">
 
                     <t t-set="current_subtotal" t-value="0"/>
 
@@ -107,14 +118,14 @@
                                 <td name="td_priceunit" class="text-end">
                                     <span t-field="line.price_unit">3</span>
                                 </td>
-                                <td t-if="display_discount" class="text-end">
+                                <!-- <td t-if="display_discount" class="text-end">
                                     <span t-field="line.discount">-</span>
                                 </td>
                                 <td name="td_taxes" class="text-end">
                                     <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))">
                                         Tax 15%
                                     </span>
-                                </td>
+                                </td> -->
                                 <td t-if="not line.is_downpayment" name="td_subtotal" class="text-end o_price_total">
                                     <span t-field="line.price_subtotal">27.00</span>
                                 </td>
@@ -182,6 +193,10 @@
                     <strong>Fiscal Position Remark:</strong>
                     <span t-field="doc.fiscal_position_id.sudo().note">No further requirements for this payment</span>
                 </p>
+            </div>
+            <div class="mt-4">
+                <hr/>
+                <p class="text-center fw-bold"> Merci d'avoir choisi Ô Fer D'or ! </p>
             </div>
         </div>
     </t>

@@ -161,6 +161,12 @@
                       widget="many2many_tags"
                       options="{'color_field': 'color'}"
                       optional="hide"/>
+
+                <field name="state_custom" 
+                decoration-info="invoice_status == 'to invoice'"
+                widget="badge"
+                optional="show"/>
+
                 <field name="state"
                     decoration-success="state == 'sale'"
                     decoration-info="state == 'draft'"
@@ -246,24 +252,15 @@
                         string="Void Transaction" data-hotkey="shift+v"
                         confirm="Are you sure you want to void the authorized transaction? This action can't be undone."
                         invisible="not authorized_transaction_ids"/>
-                <button id="create_invoice" name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
-                    type="action" class="btn-primary" data-hotkey="c"
-                    invisible="invoice_status != 'to invoice'"/>
-                <button id="create_invoice_percentage" name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
-                    type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="c"
-                    invisible="invoice_status != 'no' or state != 'sale'"/>
-                <button name="action_quotation_send" id="send_by_email_primary" string="Send by Email" type="object" data-hotkey="g"
-                    invisible="state != 'draft'" class="btn-primary"
-                    context="{'validate_analytic': True}"/>
-                <button name="action_quotation_send" id="send_proforma_primary" type="object" string="Send PRO-FORMA Invoice" class="btn-primary"
-                    groups="sale.group_proforma_sales"
-                    invisible="state != 'draft' or invoice_count &gt;= 1" context="{'proforma': True, 'validate_analytic': True}"/>
-                <button name="action_confirm" id="action_confirm" data-hotkey="q"
-                    string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}"
-                    invisible="state != 'sent'"/>
-                <button name="action_confirm" data-hotkey="q"
-                    string="Confirm" type="object" context="{'validate_analytic': True}"
-                    invisible="state != 'draft'"/>
+
+                <button name="329" string="Imprimer" type="action" class="btn-primary"/>
+
+                <button id="create_invoice" name="311" string="Create Invoice" type="action" class="btn-secondary" data-hotkey="c" invisible="invoice_status != 'to invoice'"/>
+                <button id="create_invoice_percentage" name="311" string="Create Invoice" type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="c" invisible="invoice_status != 'no' or state != 'sale'"/>
+                <button name="action_quotation_send" id="send_by_email" string="Send by Email" type="object" data-hotkey="g" invisible="state != 'draft'" class="btn-secondary" context="{'validate_analytic': True}"/>
+                <button name="action_quotation_send" id="send_proforma" type="object" string="Send PRO-FORMA Invoice" class="btn-primary" groups="sale.group_proforma_sales" invisible="state != 'draft' or invoice_count &gt;= 1" context="{'proforma': True, 'validate_analytic': True}"/>
+                <button name="action_confirm" id="action_confirm" data-hotkey="q" string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state != 'sent'"/>
+                <button name="action_confirm" data-hotkey="q" string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state != 'draft'"/>
                 <button name="action_quotation_send" id="send_proforma" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" invisible="state == 'draft' or invoice_count &gt;= 1" context="{'proforma': True, 'validate_analytic': True}"/>
                 <button name="action_quotation_send" id="send_by_email" string="Send by Email" type="object" invisible="state not in ('sent', 'sale')" data-hotkey="g" context="{'validate_analytic': True}"/>
 
@@ -331,6 +328,12 @@
                             <label for="date_order" string="Order Date"/>
                         </div>
                         <field name="date_order" invisible="state in ['draft', 'sent']" readonly="state in ['cancel', 'sale']" nolabel="1"/>
+
+                        <label for="commitment_date" string="Date de rendez-vous"/>
+                        <div name="commitment_date"  class="o_row">
+                            <field name="commitment_date" readonly="state == 'cancel' or locked"/>
+                        </div>
+
                         <field name="has_active_pricelist" invisible="1"/>
                         <field name="show_update_pricelist" invisible="1"/>
                         <label for="pricelist_id"
@@ -767,6 +770,7 @@
         <field name="priority" eval="15"/>
         <field name="arch" type="xml">
             <search string="Search Sales Order">
+                <field name="phone" string="Téléphone" filter_domain="[('partner_id.phone', 'ilike', self)]"/>
                 <field name="name" string="Order"
                     filter_domain="['|', '|', ('name', 'ilike', self), ('client_order_ref', 'ilike', self), ('partner_id', 'child_of', self)]"/>
                 <field name="partner_id" operator="child_of"/>
