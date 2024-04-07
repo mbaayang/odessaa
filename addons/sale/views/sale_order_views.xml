@@ -255,8 +255,8 @@
 
                 <button name="329" string="Imprimer" type="action" class="btn-primary"/>
 
-                <button id="create_invoice" name="311" string="Create Invoice" type="action" class="btn-secondary" data-hotkey="c" invisible="invoice_status != 'to invoice'"/>
-                <button id="create_invoice_percentage" name="311" string="Create Invoice" type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="c" invisible="invoice_status != 'no' or state != 'sale'"/>
+                <button id="create_invoice" name="311" string="Créer une facture" type="action" class="btn-secondary" data-hotkey="c" invisible="invoice_status != 'to invoice'"/>
+                <button id="create_invoice_percentage" name="311" string="Créer une facture" type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="c" invisible="invoice_status != 'no' or state != 'sale'"/>
                 <button name="action_quotation_send" id="send_by_email" string="Send by Email" type="object" data-hotkey="g" invisible="state != 'draft'" class="btn-secondary" context="{'validate_analytic': True}"/>
                 <button name="action_quotation_send" id="send_proforma" type="object" string="Send PRO-FORMA Invoice" class="btn-primary" groups="sale.group_proforma_sales" invisible="state != 'draft' or invoice_count &gt;= 1" context="{'proforma': True, 'validate_analytic': True}"/>
                 <button name="action_confirm" id="action_confirm" data-hotkey="q" string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}" invisible="state != 'sent'"/>

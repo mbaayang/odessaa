@@ -57,7 +57,7 @@
                     <div class="col-6 fw-bold">Rendez-vous:</div>
                     <div class="col-6 text-end" t-field="doc.commitment_date">2023-12-31</div>
                 </div>
-                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="row" name="expiration_date">
+                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="row mb-2" name="expiration_date">
                     <div class="col-6 fw-bold">Expiration:</div>
                     <div class="col-6 text-end" t-field="doc.validity_date">2023-12-31</div>
                 </div>

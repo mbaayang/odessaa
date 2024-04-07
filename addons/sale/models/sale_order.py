@@ -48,7 +48,9 @@ class SaleOrder(models.Model):
 
     #=== FIELDS ===#
 
-    state_custom = fields.Char(string='Etat', compute='_compute_state_custom', store=True)
+    state_custom = fields.Text(string='Etat', compute='_compute_state_custom', store=True)
+    
+    @api.depends('invoice_status')
     def _compute_state_custom(self):
         for order in self:
             if order.invoice_status == 'to invoice':
