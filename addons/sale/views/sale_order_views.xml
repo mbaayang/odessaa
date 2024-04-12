@@ -319,6 +319,7 @@
                               readonly="state == 'cancel' or locked"/>
                     </group>
                     <group name="order_details">
+                        <field name="state_custom" invisible="state != 'sale'" style="background-color: #fbd603; color: white; text-align: center; font-weight: bold;"/>
                         <field name="validity_date" invisible="state == 'sale'" readonly="state in ['cancel', 'sale']"/>
                         <div class="o_td_label" groups="base.group_no_one" invisible="state in ['sale', 'cancel']">
                             <label for="date_order" string="Quotation Date"/>
